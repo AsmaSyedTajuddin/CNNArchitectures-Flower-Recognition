@@ -133,3 +133,24 @@ The major contribution in the architecture is the choice of normalization layers
 
 EfficientNet is all about engineering and scale. It proves that if you carefully design your architecture you can achieve top results with reasonable parameters.
 
+# Self-training with Noisy Student improves ImageNet classification (2020)
+
+Shortly after, an iterative semi-supervised method was used. It improved Efficient-Net’s performance significantly with 300M unlabeled images. The author called the training scheme “Noisy Student Training” [8]. It consists of two neural networks, called the teacher and the student. The iterative training scheme can be described in 4 steps:
+
+Train a teacher model on labeled images,
+
+Use the teacher to generate labels on 300M unlabeled images (pseudo-labels)
+
+Train a student model on the combination of labeled images and pseudo labeled images.
+
+Iterate from step 1, by treating the student as a teacher. Re-infer the unlabeled data and train a new student from scratch.
+
+The new student model is normally larger than the teacher so it can benefit from a larger dataset. Furthermore, significant noise is added to train the student model so it is forced to learn harder from the pseudo labels.
+
+# Meta Pseudo-Labels (2021)
+
+Motivation: If the pseudo labels are inaccurate, the student will NOT surpass the teacher. This is called confirmation bias in pseudo-labeling methods.
+
+High-level idea: Design a feedback mechanism to correct the teacher’s bias.
+
+The observation comes from how pseudo labels affect the student’s performance on the labeled dataset. The feedback signal is the reward to train the teacher, similarly to reinforcement learning techniques.
